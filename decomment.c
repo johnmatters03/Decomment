@@ -109,6 +109,11 @@ int main(void)
         }
     }
 
-    if (state == inComment || state == fWatch) return EXIT_FAILURE;
+    if (state == inComment || state == fWatch) 
+    {
+        return EXIT_FAILURE;
+        putchar(1);
+    }
+    putchar(0);
     return EXIT_SUCCESS;
 }
