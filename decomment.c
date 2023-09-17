@@ -1,52 +1,100 @@
 #include <stdio.h>
 #include <stdlib.h>
+enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, inComment, fWatch};
+enum readStates
+
+handleNormal(int c) 
+{
+    enum readStates state;
+    if (c = "\"") state = strLiteral;
+    if (c = "'") state = charLiteral;
+    if (c = "/") state = sWatch;
+}
+
+handleStrLit(int c)
+{
+    enum readStates state;
+    if (c = "\\") state = strOChar;
+    if (c = "\"") state = normal;
+}
+
+handleStrOChar(int c)
+{
+    enum readStates state;
+    if (c != "\\") state = strLiteral;
+}
+
+handleCharLit(int c)
+{
+    enum readStates state;
+    if (c = "\\") state = charOChar;
+    if (c = "'") state = normal;
+}
+
+handleCharOChar(int c)
+{
+    enum readStates state;
+    if (c != "\\") state = charLiteral;
+}
+
+handleSW(int c)
+{
+    enum readStates state;
+    if (c = "*") state = inComment;
+    if (c != "/") state = normal;
+}
+
+handleInComment(int c)
+{
+    enum readStates state;
+    if (c = "*") state = fWatch;
+}
+
+handleFW(int c)
+{
+    enum readStates state;
+    if (c = "/") state = normal;
+    if (c != "*") state = inComment;
+}
 
 int main(void)
 {
     int c;
-    enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, inComment, fWatch};
-    enum readStates state;
-    state = normal;
+    
+    enum readStates state = normal;
 
-    while (c != EOF) {
-        c = getchar();
+    while ((c = getchar()) != EOF) {
         switch(state) {
             case normal : 
-            if (c = "\"") state = strLiteral;
-            if (c = "'") state = charLiteral;
-            if (c = "/") state = sWatch;
+            handleNormal(c);
             break;
 
             case strLiteral :
-            if (c = "\\") state = strOChar;
-            if (c = "\"") state = normal;
+            handleStrLit(c);
             break;
 
             case strOChar :
-            if (c != "\\") state = strLiteral;
+            handleStrOChar(c);
             break;
 
             case charLiteral :
-            if (c = "\\") state = charOChar;
-            if (c = "'") state = normal;
+            handleCharLit(c);
             break;
 
             case charOChar :
-            if (c != "\\") state = charLiteral;
+            handleCharOChar(c);
             break;
 
             case sWatch :
-            if (c = "*") state = inComment;
-            if (c != "/") state = normal;
+            handleSW(c);
             break;
 
             case inComment :
-            if (c = "*") state = fWatch;
+            handleInComment(c);
             break;
 
             case fWatch :
-            if (c = "/") state = normal;
-            if (c != "*") state = inComment;
+            handleFW(c);
             break;
         }
     }
