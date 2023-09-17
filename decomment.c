@@ -58,6 +58,7 @@ handleSW(int c)
     enum readStates state;
     state = normal;
     if (c == '*') {
+        putchar(' ');
         state = inComment;
         return state;
     }
@@ -101,7 +102,6 @@ handleFW(int c)
     if (c == '/') 
     {
         state = normal;
-        putchar(' ');
         return state;
     }
     if (c != '*') 
