@@ -83,6 +83,7 @@ handleSW(int c)
         putchar(c);
         return state;
     }
+    putchar('/');
     return state;
 }
 
