@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, inComment, fWatch};
-enum readStates
+enum readStates;
+int line;
+int err;
+counter = 0;
 
 handleNormal(int c) 
 {
@@ -91,6 +94,7 @@ handleInComment(int c)
 {
     enum readStates state;
     state = inComment;
+    err = line;
     if (c == '*') state = fWatch;
     if (c == '\n') putchar(c);
     return state;
@@ -117,10 +121,10 @@ handleFW(int c)
 int main(void)
 {
     int c;
-    
     enum readStates state = normal;
 
     while ((c = getchar()) != EOF) {
+        if (c == '\n') line++;
 
         switch(state) {
             case normal : 
@@ -161,6 +165,7 @@ int main(void)
 
     if (state == inComment || state == fWatch) 
     {
+        fprintf(stderr, "Error: line %d: unterminated comment", err);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
