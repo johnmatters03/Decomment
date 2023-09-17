@@ -4,7 +4,7 @@ enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, i
 enum readStates;
 int line;
 int err;
-counter = 0;
+counter = 1;
 
 handleNormal(int c) 
 {
@@ -62,6 +62,7 @@ handleSW(int c)
     state = sWatch;
     if (c == '*') {
         putchar(' ');
+        err = line;
         state = inComment;
         return state;
     }
@@ -94,7 +95,6 @@ handleInComment(int c)
 {
     enum readStates state;
     state = inComment;
-    err = line;
     if (c == '*') state = fWatch;
     if (c == '\n') putchar(c);
     return state;
