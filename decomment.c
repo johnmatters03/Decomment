@@ -9,6 +9,7 @@ handleNormal(int c)
     if (c = "\"") state = strLiteral;
     if (c = "'") state = charLiteral;
     if (c = "/") state = sWatch;
+    return state;
 }
 
 handleStrLit(int c)
@@ -16,12 +17,14 @@ handleStrLit(int c)
     enum readStates state;
     if (c = "\\") state = strOChar;
     if (c = "\"") state = normal;
+    return state;
 }
 
 handleStrOChar(int c)
 {
     enum readStates state;
     if (c != "\\") state = strLiteral;
+    return state;
 }
 
 handleCharLit(int c)
@@ -29,12 +32,14 @@ handleCharLit(int c)
     enum readStates state;
     if (c = "\\") state = charOChar;
     if (c = "'") state = normal;
+    return state;
 }
 
 handleCharOChar(int c)
 {
     enum readStates state;
     if (c != "\\") state = charLiteral;
+    return state;
 }
 
 handleSW(int c)
@@ -42,12 +47,14 @@ handleSW(int c)
     enum readStates state;
     if (c = "*") state = inComment;
     if (c != "/") state = normal;
+    return state;
 }
 
 handleInComment(int c)
 {
     enum readStates state;
     if (c = "*") state = fWatch;
+    return state;
 }
 
 handleFW(int c)
@@ -55,6 +62,7 @@ handleFW(int c)
     enum readStates state;
     if (c = "/") state = normal;
     if (c != "*") state = inComment;
+    return state;
 }
 
 int main(void)
@@ -66,35 +74,35 @@ int main(void)
     while ((c = getchar()) != EOF) {
         switch(state) {
             case normal : 
-            handleNormal(c);
+            state = handleNormal(c);
             break;
 
             case strLiteral :
-            handleStrLit(c);
+            state = handleStrLit(c);
             break;
 
             case strOChar :
-            handleStrOChar(c);
+            state = handleStrOChar(c);
             break;
 
             case charLiteral :
-            handleCharLit(c);
+            state = handleCharLit(c);
             break;
 
             case charOChar :
-            handleCharOChar(c);
+            state = handleCharOChar(c);
             break;
 
             case sWatch :
-            handleSW(c);
+            state = handleSW(c);
             break;
 
             case inComment :
-            handleInComment(c);
+            state = handleInComment(c);
             break;
 
             case fWatch :
-            handleFW(c);
+            state = handleFW(c);
             break;
         }
     }
