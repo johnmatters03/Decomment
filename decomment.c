@@ -6,64 +6,98 @@ enum readStates
 handleNormal(int c) 
 {
     enum readStates state;
-    if (c = "\"") state = strLiteral;
-    if (c = "'") state = charLiteral;
-    if (c = "/") state = sWatch;
+    state = normal;
+
+    if (c == '"') state = strLiteral;
+    if (c == '\'') state = charLiteral;
+    if (c == '/') state = sWatch;
+    
+    if (state != sWatch) putchar(c);
     return state;
 }
 
 handleStrLit(int c)
 {
     enum readStates state;
-    if (c = "\\") state = strOChar;
-    if (c = "\"") state = normal;
+    state = strLiteral;
+
+    if (c == '\\') state = strOChar;
+    if (c == '"') state = normal;
+    putchar(c);
     return state;
 }
 
 handleStrOChar(int c)
 {
     enum readStates state;
-    if (c != "\\") state = strLiteral;
+    state = strLiteral;
+    putchar(c);
     return state;
 }
 
 handleCharLit(int c)
 {
     enum readStates state;
-    if (c = "\\") state = charOChar;
-    if (c = "'") state = normal;
+    state = charLiteral;
+    if (c == '\\') state = charOChar;
+    if (c == '\'') state = normal;
+    putchar(c);
     return state;
 }
 
 handleCharOChar(int c)
 {
     enum readStates state;
-    if (c != "\\") state = charLiteral;
+    state = charLiteral;
+    putchar(c);
     return state;
 }
 
 handleSW(int c)
 {
     enum readStates state;
-    if (c = "*") state = inComment;
-    if (c = "\"") state = strLiteral;
-    if (c = "'") state = charLiteral;
-    if (c != "/") state = normal;
+    state = sWatch;
+    if (c == '*') state = inComment;
+    if (c == '"') 
+    {
+        state = strLiteral;
+        putchar('/');
+        putchar(c);
+    }
+    if (c == '\'') 
+    {
+        state = charLiteral;
+        putchar('/');
+        putchar(c);
+    }
+    if (c != '/') 
+    {
+        state = normal;
+        putchar('/');
+        putchar(c);
+    }
     return state;
 }
 
 handleInComment(int c)
 {
     enum readStates state;
-    if (c = "*") state = fWatch;
+    state = inComment;
+    if (c == '*') state = fWatch;
+    if (c == '\n') putchar(c);
     return state;
 }
 
 handleFW(int c)
 {
     enum readStates state;
-    if (c = "/") state = normal;
-    if (c != "*") state = inComment;
+    state = fWatch;
+    if (c == '/') 
+    {
+        state = normal;
+        putchar(' ');
+    }
+    if (c != '*') state = inComment;
     return state;
 }
 
@@ -111,9 +145,7 @@ int main(void)
 
     if (state == inComment || state == fWatch) 
     {
-        putchar('F');
         return EXIT_FAILURE;
     }
-    putchar('S');
     return EXIT_SUCCESS;
 }
