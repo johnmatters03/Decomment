@@ -105,6 +105,7 @@ handleFW(int c)
         state = normal;
         return state;
     }
+    if (c == '\n') putchar(c);
     if (c != '*') 
     {
         state = inComment;
