@@ -124,7 +124,11 @@ int main(void)
     enum readStates state = normal;
 
     while ((c = getchar()) != EOF) {
-        if (c == '\n') line++;
+        if (c == '\n') 
+        {
+            line++;
+            printf("this is line %d", line);
+        }
 
         switch(state) {
             case normal : 
