@@ -56,25 +56,31 @@ handleCharOChar(int c)
 handleSW(int c)
 {
     enum readStates state;
-    state = sWatch;
-    if (c == '*') state = inComment;
+    state = normal;
+    if (c == '*') {
+        state = inComment;
+        return state;
+    }
     if (c == '"') 
     {
         state = strLiteral;
         putchar('/');
         putchar(c);
+        return state;
     }
     if (c == '\'') 
     {
         state = charLiteral;
         putchar('/');
         putchar(c);
+        return state;
     }
     if (c != '/') 
     {
         state = normal;
         putchar('/');
         putchar(c);
+        return state;
     }
     return state;
 }
@@ -96,8 +102,13 @@ handleFW(int c)
     {
         state = normal;
         putchar(' ');
+        return state;
     }
-    if (c != '*') state = inComment;
+    if (c != '*') 
+    {
+        state = inComment;
+        return state;
+    }
     return state;
 }
 
@@ -108,6 +119,7 @@ int main(void)
     enum readStates state = normal;
 
     while ((c = getchar()) != EOF) {
+
         switch(state) {
             case normal : 
             state = handleNormal(c);
