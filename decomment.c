@@ -157,7 +157,7 @@ int main(void)
         }
     }
 
-    if (state == sWatch) putchar("/");
+    if (state == sWatch) putchar('/');
 
     if (state == inComment || state == fWatch) 
     {
