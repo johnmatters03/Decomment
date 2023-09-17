@@ -56,7 +56,7 @@ handleCharOChar(int c)
 handleSW(int c)
 {
     enum readStates state;
-    state = normal;
+    state = sWatch;
     if (c == '*') {
         putchar(' ');
         state = inComment;
