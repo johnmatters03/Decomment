@@ -111,9 +111,9 @@ int main(void)
 
     if (state == inComment || state == fWatch) 
     {
+        putchar('F');
         return EXIT_FAILURE;
-        putchar(1);
     }
-    putchar(0);
+    putchar('S');
     return EXIT_SUCCESS;
 }
