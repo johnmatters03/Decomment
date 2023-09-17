@@ -4,7 +4,7 @@ enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, i
 enum readStates;
 int line;
 int err;
-counter = 1;
+line = 1;
 
 handleNormal(int c) 
 {
@@ -127,7 +127,6 @@ int main(void)
         if (c == '\n') 
         {
             line++;
-            printf("this is line %d", line);
         }
 
         switch(state) {
