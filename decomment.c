@@ -168,7 +168,7 @@ int main(void)
 
     if (state == inComment || state == fWatch) 
     {
-        fprintf(stderr, "Error: line %d: unterminated comment", err);
+        fprintf(stderr, "Error: line %d: unterminated comment\n", err);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
