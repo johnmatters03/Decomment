@@ -46,6 +46,8 @@ handleSW(int c)
 {
     enum readStates state;
     if (c = "*") state = inComment;
+    if (c = "\"") state = strLiteral;
+    if (c = "'") state = charLiteral;
     if (c != "/") state = normal;
     return state;
 }
