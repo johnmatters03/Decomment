@@ -157,6 +157,8 @@ int main(void)
         }
     }
 
+    if (state == sWatch) putchar("/");
+
     if (state == inComment || state == fWatch) 
     {
         return EXIT_FAILURE;
