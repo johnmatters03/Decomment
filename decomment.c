@@ -2,9 +2,6 @@
 #include <stdlib.h>
 enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar, sWatch, inComment, fWatch};
 enum readStates;
-int line;
-int err;
-line = 1;
 
 handleNormal(int c) 
 {
@@ -62,7 +59,6 @@ handleSW(int c)
     state = sWatch;
     if (c == '*') {
         putchar(' ');
-        err = line;
         state = inComment;
         return state;
     }
@@ -121,6 +117,11 @@ handleFW(int c)
 int main(void)
 {
     int c;
+    int line;
+    int err;
+
+    line = 1;
+
     enum readStates state = normal;
 
     while ((c = getchar()) != EOF) {
@@ -151,6 +152,7 @@ int main(void)
             break;
 
             case sWatch :
+            if (c == '*') err = line;
             state = handleSW(c);
             break;
 
