@@ -1,0 +1,36 @@
+normal (accept) <-- the start state
+   ":  strLiteral
+   ':  charLiteral
+   /:  sWatch
+
+strLiteral (accept)
+   ":  normal
+   \:  strOChar
+   other:  strLiteral
+
+strOChar (accept)
+   other:  strLiteral
+
+charLiteral (accept)
+   ':  normal
+   \:  charOChar
+   other:  charLiteral
+
+charOChar (accept)
+   other:  charOChar
+
+sWatch (accept)
+   ":  strLiteral
+   ':  charLiteral
+   /:  sWatch
+   *:  inComment
+   other:  normal
+
+inComment (reject)
+   *:  fWatch
+   other:  inComment
+
+fWatch (reject)
+   /:  normal
+   *:  fWatch
+   other: inComment
