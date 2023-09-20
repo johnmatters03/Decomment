@@ -7,10 +7,10 @@ enum readStates {normal, strLiteral, strOChar, charLiteral, charOChar,
     sWatch, inComment, fWatch};
 enum readStates;
 
-/* handleNormal function takes in a character input and handles the
+/* handleNormal function takes in an int character c and handles the
    normal state of the program, returns a readStates state according
-   to the transition */
-handleNormal(int c) 
+   to the transition, no change to global vars, outputs to stdout */
+enum readStates handleNormal(int c)
 {
     enum readStates state;
     state = normal;
@@ -22,11 +22,12 @@ handleNormal(int c)
     if (state != sWatch) putchar(c);
     return state;
 }
-----------------------------------------------------------------------
-/* handleStrLit function takes in a character input and handles the
-   string literal state of the program, returns a readStates state
-   according to the transition */
-handleStrLit(int c)
+
+/* handleStrLit function takes in an int character c and handles
+   the string literal state of the program, returns a readStates
+   state according to the transition, no change to global vars,
+   outputs to stdout */
+enum readStates handleStrLit(int c)
 {
     enum readStates state;
     state = strLiteral;
@@ -37,10 +38,11 @@ handleStrLit(int c)
     return state;
 }
 
-/* handleStrOChar function takes in a character input and handles the
-   case where a forward slash (ordinary char) is read in a string,
-   returns a readStates state according to the transition */
-handleStrOChar(int c)
+/* handleStrOChar function takes in an int character c and handles
+   the case where a forward slash (ordinary char) is read in a
+   string, returns a readStates state according to the transition,
+   no change to global vars, outputs to stdout */
+enum readStates handleStrOChar(int c)
 {
     enum readStates state;
     state = strLiteral;
@@ -48,10 +50,11 @@ handleStrOChar(int c)
     return state;
 }
 
-/* handleCharLit function takes in a character input and handles the
+/* handleCharLit function takes in an character c and handles the
    state of character literal, returns a readStates state according
-   to the transition */
-handleCharLit(int c)
+   to the transition, no change to global vars, outputs to
+   stdout */
+enum readStates handleCharLit(int c)
 {
     enum readStates state;
     state = charLiteral;
@@ -61,10 +64,11 @@ handleCharLit(int c)
     return state;
 }
 
-/* handleCharOChar function takes in a character input and handles
+/* handleCharOChar function takes in an int character c and handles
    the state of ordinary character for character literals, returns
-   a readStates state according to the transition */
-handleCharOChar(int c)
+   a readStates state according to the transition, no change to
+   global vars, outputs to stdout */
+enum readStates handleCharOChar(int c)
 {
     enum readStates state;
     state = charLiteral;
@@ -72,10 +76,11 @@ handleCharOChar(int c)
     return state;
 }
 
-/* handleSW function takes in a character input and handles the
-   state of star watch, returns a readStates state according
-   to the transition */
-handleSW(int c)
+/* handleSW function takes in an int character c and handles
+   the state of star watch, returns a readStates state according
+   to the transition, no change to global vars, outputs to
+   stdout */
+enum readStates handleSW(int c)
 {
     enum readStates state;
     state = sWatch;
@@ -109,10 +114,11 @@ handleSW(int c)
     return state;
 }
 
-/* handleInComment function takes in a character input and
-   handles the state of in comment, returns a readStates
-   state according to the transition */
-handleInComment(int c)
+/* handleInComment function takes in an int character c
+   and handles the state of in comment, returns a
+   readStates state according to the transition, no
+   change to global vars, outputs to stdout */
+enum readStates handleInComment(int c)
 {
     enum readStates state;
     state = inComment;
@@ -121,10 +127,11 @@ handleInComment(int c)
     return state;
 }
 
-/* handleFW function takes in a character input and handles
+/* handleFW function takes in an int character c and handles
    the state of forward slash watch, returns a readStates
-   state according to the transition */
-handleFW(int c)
+   state according to the transition, no change to global
+   vars, outputs to stdout */
+enum readStates handleFW(int c)
 {
     enum readStates state;
     state = fWatch;
@@ -142,6 +149,10 @@ handleFW(int c)
     return state;
 }
 
+/* main function, runs the main decomment script, returns
+   EXIT_SUCCESS if there are no unterminated comments and
+   EXIT_FAILURE otherwise, no change to global vars, outputs
+   to stdout and stderr */
 int main(void)
 {
     int c;
